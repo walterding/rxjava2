@@ -1,5 +1,7 @@
 package org.rxjava;
 
+import java.util.ArrayList;
+
 /**
  * Created by hinotohui on 18/12/31.
  */
@@ -20,8 +22,7 @@ public class Observable {
     }
 
     public <U,V> Observable map(IFunc<U,V> fun){
-        OperatorMap<U,V> operatorMap = new OperatorMap<U,V>(fun);
-        Observable observable = lift(this,operatorMap);
+        Observable observable = lift(this,new OperatorMap<U,V>(fun));
         return observable;
     }
 
@@ -69,5 +70,6 @@ public class Observable {
 
             }
         });
+
     }
 }
