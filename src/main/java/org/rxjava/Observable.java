@@ -51,7 +51,7 @@ public class Observable {
                 subscriber.onNext(update);
                 subscriber.onNext(update);
             }
-        }).<String,String> map(new IFunc<String,String>() {
+        }). map(new IFunc<String,String>() {
             public String call(String o) {
                 return o+"123";
             }
