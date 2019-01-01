@@ -1,6 +1,7 @@
 package org.rxjava;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Created by hinotohui on 18/12/31.
@@ -9,6 +10,19 @@ public class Observable {
 
     private OnSubscribe onSubscribe;
     private Subscriber subscriber;
+
+    public <V> Observable schedule(final ExecutorService asyncPool){
+
+        return new Observable(new OnSubscribe<V>() {
+            public void call(final Subscriber<? super V> subscriber) {
+                asyncPool.submit(new Runnable() {
+                    public void run() {
+                        Observable.this.onSubscribe.call(subscriber);
+                    }
+                });
+            }
+        });
+    }
 
     public <U,V> Observable lift(final Observable preObservable,
                                  final Operator<V, U>
